@@ -6,28 +6,29 @@
 package transfer.request;
 
 import java.io.Serializable;
+import transfer.util.IOperation;
 
 /**
  *
  * @author MARINA
  */
 public class RequestObject implements Serializable{
-    private int operation;
+    private String operation;
     private Object data;
 
     public RequestObject() {
     }
 
-    public RequestObject(int operation, Object data) {
+    public RequestObject(String operation, Object data) {
         this.operation = operation;
         this.data = data;
     }
 
-    public int getOperation() {
+    public String getOperation() {
         return operation;
     }
 
-    public void setOperation(int operation) {
+    public void setOperation(String operation) {
         this.operation = operation;
     }
 
