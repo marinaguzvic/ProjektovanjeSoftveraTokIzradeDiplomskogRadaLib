@@ -6,13 +6,14 @@
 package rs.ac.bg.fon.silab.jpa.example1.domain;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author MARINA
  */
-public interface CompundDObject {
+public interface CompundDObject extends Serializable{
     public List<String> classNames();
     public List<GeneralDObject> getItemsFor(String className);
     public GeneralDObject createChild(String className);

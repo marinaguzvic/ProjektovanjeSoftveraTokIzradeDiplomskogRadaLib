@@ -11,9 +11,16 @@ package rs.ac.bg.fon.silab.constants;
  */
 public class Constants {
 
-    public static final String URL = "url";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
+    public static final String PATH_TO_CONFIG_FILE = "./../resources/config.properties";
+    public static final String PROVIDER = "provider";
+    public static final String PROVIDER_NO = "no";
+    public static final String DRIVER = "driver";
+    public static final String ADDRESS = "address";
+    public static final String PORT = "port";
+    public static final String DATABASE = "database";
+    public static final String SERVER = "server";
 
     public class TemaDiplomskogRada {
 
@@ -91,5 +98,12 @@ public class Constants {
         public static final String AKTIVNA = "aktivna";
     }
 
+    public class Korisnik{
+        public static final String CLASS_NAME = "korisnik";
+        public static final String USERNAME = "username";
+        public static final String PASSWORD = "password";
+        public static final String IME = "ime_korisnika";
+        public static final String PREZIME = "prezime_korisnika";
 
+    }
 }
