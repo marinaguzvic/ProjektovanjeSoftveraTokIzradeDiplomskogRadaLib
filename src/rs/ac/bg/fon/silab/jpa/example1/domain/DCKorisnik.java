@@ -6,6 +6,7 @@
 package rs.ac.bg.fon.silab.jpa.example1.domain;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.Objects;
@@ -23,6 +24,8 @@ public class DCKorisnik implements GeneralDObject,Serializable {
     private String prezime;
 
     public DCKorisnik() {
+        password = new char[0];
+
     }
 
     public DCKorisnik(String username, char[] password, String ime, String prezime) {

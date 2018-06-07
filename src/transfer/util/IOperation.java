@@ -20,4 +20,5 @@ public interface IOperation {
     public static final String SO_FIND_BY_ID = "find_by_id";
     public static final String LOGIN = "login";
     public static final String LOGOUT = "logout";
+    public static final String DISCONNECT = "disconnect";
 }
