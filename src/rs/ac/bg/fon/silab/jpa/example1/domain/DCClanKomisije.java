@@ -14,8 +14,8 @@ import rs.ac.bg.fon.silab.constants.Constants;
  *
  * @author MARINA
  */
-public class DCClanKomisije implements GeneralDObject,Serializable{
-    
+public class DCClanKomisije implements GeneralDObject, ChildDObject, Serializable {
+
     private DCKomisija komisija;
     private int clanKomisijeRB;
     private DCNastavnik nastavnik;
@@ -30,19 +30,23 @@ public class DCClanKomisije implements GeneralDObject,Serializable{
         this.nastavnik = nastavnik;
         this.ulogaClanaKomisije = ulogaClanaKomisije;
     }
-    
+
     public DCClanKomisije(DCKomisija komisija, int clanKomisijeRB) {
         this.komisija = komisija;
         this.clanKomisijeRB = clanKomisijeRB;
     }
-    
+
     public DCClanKomisije(int clanKomisijeRB, DCNastavnik nastavnik, EUlogaClanaKomisije ulogaClanaKomisije) {
 
         this.clanKomisijeRB = clanKomisijeRB;
         this.nastavnik = nastavnik;
         this.ulogaClanaKomisije = ulogaClanaKomisije;
     }
-    
+
+    public DCClanKomisije(DCKomisija komisija) {
+        this.komisija = komisija;
+    }
+
     @Override
     public String getAtrValue() {
         return komisija.getKomisijaID() + "," + clanKomisijeRB + "," + nastavnik.getNastavnikID() + ",'" + ulogaClanaKomisije + "'";
@@ -70,15 +74,15 @@ public class DCClanKomisije implements GeneralDObject,Serializable{
 
     @Override
     public String getNameByColumn(int column) {
-        String [] columnNames = new String[]{Constants.ClanKomisije.KOMISIJA_ID_FK,Constants.ClanKomisije.CLAN_KOMISIJE_RB,Constants.ClanKomisije.NASTAVNIK_ID_FK,Constants.ClanKomisije.ULOGA_CLANA_KOMISIJE};
+        String[] columnNames = new String[]{Constants.ClanKomisije.KOMISIJA_ID_FK, Constants.ClanKomisije.CLAN_KOMISIJE_RB, Constants.ClanKomisije.NASTAVNIK_ID_FK, Constants.ClanKomisije.ULOGA_CLANA_KOMISIJE};
         return columnNames[column];
     }
 
-
-
     @Override
     public void checkConstraints() throws Exception {
-        if(nastavnik == null || ulogaClanaKomisije == null)throw new Exception("Not all fields for the member " + clanKomisijeRB + " had been filled");
+        if (nastavnik == null || ulogaClanaKomisije == null) {
+            throw new Exception("Not all fields for the member " + clanKomisijeRB + " had been filled");
+        }
     }
 
     public DCKomisija getKomisija() {
@@ -113,7 +117,6 @@ public class DCClanKomisije implements GeneralDObject,Serializable{
         this.ulogaClanaKomisije = ulogaClanaKomisije;
     }
 
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -140,7 +143,37 @@ public class DCClanKomisije implements GeneralDObject,Serializable{
 
     }
 
+    @Override
+    public String getParentWhere() {
+        return Constants.ClanKomisije.KOMISIJA_ID_FK + "=" + komisija.getKomisijaID();
+    }
+
+    @Override
+    public String[] returnUniqueColumns() {
+        return new String[]{Constants.ClanKomisije.CLAN_KOMISIJE_RB, Constants.ClanKomisije.NASTAVNIK_ID_FK};
+    }
+
+    @Override
+    public Object getValue(String column) {
+        switch (column) {
+            case Constants.ClanKomisije.KOMISIJA_ID_FK:
+                return komisija;
+            case Constants.ClanKomisije.CLAN_KOMISIJE_RB:
+                return clanKomisijeRB;
+            case Constants.ClanKomisije.NASTAVNIK_ID_FK:
+                return nastavnik;
+            case Constants.ClanKomisije.ULOGA_CLANA_KOMISIJE:
+                return ulogaClanaKomisije;
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public String [] getPrimaryKeyColumns() {
+        return new String[]{Constants.ClanKomisije.KOMISIJA_ID_FK,Constants.ClanKomisije.CLAN_KOMISIJE_RB};
+    }
     
     
-    
+
 }

@@ -17,7 +17,8 @@ import rs.ac.bg.fon.silab.constants.Constants;
  *
  * @author MARINA
  */
-public class DCNastavnik implements GeneralDObject,Serializable{
+public class DCNastavnik implements GeneralDObject, Serializable {
+
     private Long nastavnikID;
     private String imeNastavnika;
     private String prezimeNastavnika;
@@ -38,7 +39,7 @@ public class DCNastavnik implements GeneralDObject,Serializable{
         this.zvanje = zvanje;
         this.titula = titula;
     }
-    
+
     public DCNastavnik(Long nastavnik_id) {
         this.nastavnikID = nastavnik_id;
     }
@@ -118,11 +119,10 @@ public class DCNastavnik implements GeneralDObject,Serializable{
     public String getWhereCondition() {
         return Constants.Nastavnik.NASTAVNIK_ID + "=" + nastavnikID;
     }
-    
 
     @Override
     public String getNameByColumn(int column) {
-        String [] names = new String[] {Constants.Nastavnik.NASTAVNIK_ID,Constants.Nastavnik.IME_NASTAVNIKA,Constants.Nastavnik.PREZIME_NASTAVNIK,Constants.Nastavnik.BROJ_RADNE_KNJIZICE,Constants.Nastavnik.JMBG,Constants.Nastavnik.ZVANJE,Constants.Nastavnik.TITULA};
+        String[] names = new String[]{Constants.Nastavnik.NASTAVNIK_ID, Constants.Nastavnik.IME_NASTAVNIKA, Constants.Nastavnik.PREZIME_NASTAVNIK, Constants.Nastavnik.BROJ_RADNE_KNJIZICE, Constants.Nastavnik.JMBG, Constants.Nastavnik.ZVANJE, Constants.Nastavnik.TITULA};
         return names[column];
     }
 
@@ -170,7 +170,7 @@ public class DCNastavnik implements GeneralDObject,Serializable{
     @Override
     public void setKey(ResultSet rs) {
         try {
-            if(rs.next()){
+            if (rs.next()) {
                 nastavnikID = rs.getLong(1);
             }
         } catch (SQLException ex) {
@@ -183,7 +183,38 @@ public class DCNastavnik implements GeneralDObject,Serializable{
         return imeNastavnika + " " + prezimeNastavnika;
     }
 
+    @Override
+    public String[] returnUniqueColumns() {
+        return new String[]{};
+    }
+
+    @Override
+    public Object getValue(String column) {
+        switch (column) {
+            case Constants.Nastavnik.NASTAVNIK_ID:
+                return nastavnikID;
+            case Constants.Nastavnik.IME_NASTAVNIKA:
+                return imeNastavnika;
+            case Constants.Nastavnik.PREZIME_NASTAVNIK:
+                return prezimeNastavnika;
+            case Constants.Nastavnik.BROJ_RADNE_KNJIZICE:
+                return brojRadneKnjizice;
+            case Constants.Nastavnik.JMBG:
+                return jmbg;
+            case Constants.Nastavnik.ZVANJE:
+                return zvanje;
+            case Constants.Nastavnik.TITULA:
+                return titula;
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public String[] getPrimaryKeyColumns() {
+        return new String[]{Constants.Nastavnik.NASTAVNIK_ID};
+    }
     
     
-    
+
 }

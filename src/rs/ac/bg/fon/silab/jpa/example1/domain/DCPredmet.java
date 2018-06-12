@@ -17,14 +17,15 @@ import rs.ac.bg.fon.silab.constants.Constants;
  *
  * @author MARINA
  */
-public class DCPredmet implements GeneralDObject,Serializable{
+public class DCPredmet implements GeneralDObject, Serializable {
+
     private Long predmetID;
     private String nazivPredmeta;
 
-
-    public DCPredmet(String nazivPredmeta){
+    public DCPredmet(String nazivPredmeta) {
         this.nazivPredmeta = nazivPredmeta;
     }
+
     public DCPredmet() {
     }
 
@@ -33,7 +34,7 @@ public class DCPredmet implements GeneralDObject,Serializable{
         this.nazivPredmeta = nazivPredmeta;
 
     }
-    
+
     public DCPredmet(Long predmetID) {
         this.predmetID = predmetID;
     }
@@ -54,8 +55,6 @@ public class DCPredmet implements GeneralDObject,Serializable{
         this.nazivPredmeta = nazivPredmeta;
     }
 
-
-
     @Override
     public String getAtrValue() {
         return "'" + nazivPredmeta + "'";
@@ -73,12 +72,12 @@ public class DCPredmet implements GeneralDObject,Serializable{
 
     @Override
     public String getWhereCondition() {
-        return  Constants.Predmet.PREDMET_ID + "=" + predmetID;
+        return Constants.Predmet.PREDMET_ID + "=" + predmetID;
     }
 
     @Override
     public String getNameByColumn(int column) {
-        String [] names = new String[]{ Constants.Predmet.PREDMET_ID, Constants.Predmet.NAZIV_PREDMETA};
+        String[] names = new String[]{Constants.Predmet.PREDMET_ID, Constants.Predmet.NAZIV_PREDMETA};
         return names[column];
     }
 
@@ -88,7 +87,7 @@ public class DCPredmet implements GeneralDObject,Serializable{
 
     @Override
     public String getColumnNames() {
-        return  Constants.Predmet.NAZIV_PREDMETA;
+        return Constants.Predmet.NAZIV_PREDMETA;
     }
 
     @Override
@@ -120,7 +119,7 @@ public class DCPredmet implements GeneralDObject,Serializable{
     @Override
     public void setKey(ResultSet rs) {
         try {
-            if(rs.next()){
+            if (rs.next()) {
                 predmetID = rs.getLong(1);
             }
         } catch (SQLException ex) {
@@ -132,6 +131,29 @@ public class DCPredmet implements GeneralDObject,Serializable{
     public String toString() {
         return nazivPredmeta;
     }
+
+    @Override
+    public String[] returnUniqueColumns() {
+        return new String[]{};
+    }
+
+    @Override
+    public Object getValue(String column) {
+        switch (column) {
+            case Constants.Predmet.PREDMET_ID:
+                return predmetID;
+            case Constants.Predmet.NAZIV_PREDMETA:
+                return nazivPredmeta;
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public String[] getPrimaryKeyColumns() {
+        return new String[]{Constants.Predmet.PREDMET_ID};
+    }
     
     
+
 }

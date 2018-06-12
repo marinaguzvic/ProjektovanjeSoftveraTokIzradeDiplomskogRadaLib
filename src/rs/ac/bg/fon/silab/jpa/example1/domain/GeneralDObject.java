@@ -21,4 +21,12 @@ public interface GeneralDObject {
     void checkConstraints() throws Exception;
 
     public void setKey(ResultSet rs) throws Exception;
+    public String [] returnUniqueColumns();
+
+    public Object getValue(String column);
+
+    public String [] getPrimaryKeyColumns();
+
+
+
 }

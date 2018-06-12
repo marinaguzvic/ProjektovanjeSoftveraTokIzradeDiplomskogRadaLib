@@ -17,7 +17,7 @@ import rs.ac.bg.fon.silab.constants.Constants;
  *
  * @author MARINA
  */
-public class DCStudent implements GeneralDObject ,Serializable{
+public class DCStudent implements GeneralDObject, Serializable {
 
     private String brojIndeksa;
     private String jmbg;
@@ -48,11 +48,12 @@ public class DCStudent implements GeneralDObject ,Serializable{
         this.budzet = false;
         this.godinaStudija = 1;
         this.datumRodjenja = LocalDate.now();
+        this.datumRodjenja = this.datumRodjenja.minusYears(19);
         this.prviPutUpisao = true;
 
     }
-    
-    public DCStudent(String brojIndeksa){
+
+    public DCStudent(String brojIndeksa) {
         this.brojIndeksa = brojIndeksa;
     }
 
@@ -120,11 +121,9 @@ public class DCStudent implements GeneralDObject ,Serializable{
         this.prviPutUpisao = prviPutUpisao;
     }
 
-
-
     @Override
     public String getAtrValue() {
-        return "'" + brojIndeksa + "', '" + jmbg + "', '" + ime + "', '" + prezime + "', " + (budzet ? 1:0) + ", " + godinaStudija + ", '" + datumRodjenja + "', " + (prviPutUpisao?1:0);
+        return "'" + brojIndeksa + "', '" + jmbg + "', '" + ime + "', '" + prezime + "', " + (budzet ? 1 : 0) + ", " + godinaStudija + ", '" + datumRodjenja + "', " + (prviPutUpisao ? 1 : 0);
     }
 
     @Override
@@ -144,26 +143,38 @@ public class DCStudent implements GeneralDObject ,Serializable{
 
     @Override
     public String getNameByColumn(int column) {
-        String names[] = new String[]{Constants.Student.BROJ_INDEKSA,Constants.Student.JMBG,Constants.Student.IME,Constants.Student.PREZIME,Constants.Student.BUDZET,Constants.Student.GODINA_STUDIJA,Constants.Student.DATUM_RODJENJA,Constants.Student.PRVI_PUT_UPISAO};
+        String names[] = new String[]{Constants.Student.BROJ_INDEKSA, Constants.Student.JMBG, Constants.Student.IME, Constants.Student.PREZIME, Constants.Student.BUDZET, Constants.Student.GODINA_STUDIJA, Constants.Student.DATUM_RODJENJA, Constants.Student.PRVI_PUT_UPISAO};
         return names[column];
     }
 
     @Override
     public void checkConstraints() throws Exception {
-        try{
-            Integer.parseInt(jmbg);
-        }catch(NumberFormatException pe){
+        try {
+            Long.parseLong(jmbg);
+        } catch (NumberFormatException pe) {
             throw new Exception("JMBG is not consisted of all integers");
         }
-        if(jmbg.length() <= 13)throw new Exception("JMBG is supposed to be 13 digits long, yours is: " + jmbg.length());
-        if(ime.length() <= 2)throw new Exception("Name length less than 3");
-        for (char c : ime.toCharArray()) {
-            if(!Character.isLetter(c))throw new Exception("Character " + c + " in Name is not a letter");
+        if (jmbg.length() < 13 || jmbg.length() > 13) {
+            throw new Exception("JMBG is supposed to be 13 digits long, yours is: " + jmbg.length());
         }
-        if(jmbg.length() != 13)throw new Exception("JMBG is supposed to be 13 digits long, yours is: " + jmbg.length());
-        if(prezime.length() <= 2)throw new Exception("Surname length less than 3");
+        if (ime.length() <= 2) {
+            throw new Exception("Name length less than 3");
+        }
+        for (char c : ime.toCharArray()) {
+            if (!Character.isLetter(c)) {
+                throw new Exception("Character " + c + " in Name is not a letter");
+            }
+        }
+        if (jmbg.length() != 13) {
+            throw new Exception("JMBG is supposed to be 13 digits long, yours is: " + jmbg.length());
+        }
+        if (prezime.length() <= 2) {
+            throw new Exception("Surname length less than 3");
+        }
         for (char c : prezime.toCharArray()) {
-            if(!Character.isLetter(c))throw new Exception("Character " + c + " in Surname is not a letter");
+            if (!Character.isLetter(c)) {
+                throw new Exception("Character " + c + " in Surname is not a letter");
+            }
         }
     }
 
@@ -211,6 +222,40 @@ public class DCStudent implements GeneralDObject ,Serializable{
     @Override
     public String toString() {
         return brojIndeksa + "\t" + ime + "\t" + prezime;
+    }
+
+    @Override
+    public String[] returnUniqueColumns() {
+        return new String[]{Constants.Student.BROJ_INDEKSA,Constants.Student.JMBG};
+    }
+
+    @Override
+    public Object getValue(String column) {
+        switch (column) {
+            case Constants.Student.BROJ_INDEKSA:
+                return brojIndeksa;
+            case Constants.Student.JMBG:
+                return jmbg;
+            case Constants.Student.IME:
+                return ime;
+            case Constants.Student.PREZIME:
+                return prezime;
+            case Constants.Student.BUDZET:
+                return budzet;
+            case Constants.Student.GODINA_STUDIJA:
+                return godinaStudija;
+            case Constants.Student.DATUM_RODJENJA:
+                return datumRodjenja;
+            case Constants.Student.PRVI_PUT_UPISAO:
+                return prviPutUpisao;
+                default:
+                    return null;
+        }
+    }
+
+    @Override
+    public String[] getPrimaryKeyColumns() {
+        return new String[]{Constants.Student.BROJ_INDEKSA};
     }
 
     

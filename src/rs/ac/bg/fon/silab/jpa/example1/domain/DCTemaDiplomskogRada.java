@@ -17,7 +17,7 @@ import rs.ac.bg.fon.silab.constants.Constants;
  *
  * @author MARINA
  */
-public class DCTemaDiplomskogRada implements GeneralDObject,Serializable {
+public class DCTemaDiplomskogRada implements GeneralDObject, Serializable {
 
     private Long temaID;
     private String nazivTeme;
@@ -77,7 +77,7 @@ public class DCTemaDiplomskogRada implements GeneralDObject,Serializable {
 
     @Override
     public String setAtrValue() {
-        return Constants.TemaDiplomskogRada.NAZIV_TEME + "='" + nazivTeme + "'," + Constants.TemaDiplomskogRada.OPIS_TEME + "='" + opisTeme + "'," +  Constants.TemaDiplomskogRada.PREDMET_ID_FK + "=" + predmet.getPredmetID();
+        return Constants.TemaDiplomskogRada.NAZIV_TEME + "='" + nazivTeme + "'," + Constants.TemaDiplomskogRada.OPIS_TEME + "='" + opisTeme + "'," + Constants.TemaDiplomskogRada.PREDMET_ID_FK + "=" + predmet.getPredmetID();
     }
 
     @Override
@@ -92,18 +92,21 @@ public class DCTemaDiplomskogRada implements GeneralDObject,Serializable {
 
     @Override
     public String getNameByColumn(int column) {
-        String [] names = new String[]{Constants.TemaDiplomskogRada.TEMA_ID,Constants.TemaDiplomskogRada.NAZIV_TEME,Constants.TemaDiplomskogRada.OPIS_TEME,Constants.TemaDiplomskogRada.PREDMET_ID_FK};
+        String[] names = new String[]{Constants.TemaDiplomskogRada.TEMA_ID, Constants.TemaDiplomskogRada.NAZIV_TEME, Constants.TemaDiplomskogRada.OPIS_TEME, Constants.TemaDiplomskogRada.PREDMET_ID_FK};
         return names[column];
     }
 
     @Override
     public void checkConstraints() throws Exception {
-        if(nazivTeme.length() < 10 )
+        if (nazivTeme.length() < 10) {
             throw new Exception("naziv teme previse kratak");
-        if(opisTeme.length() < 10)
+        }
+        if (opisTeme.length() < 10) {
             throw new Exception("Opis teme previse kratak");
-        if(predmet == null)
+        }
+        if (predmet == null) {
             throw new Exception("Predmet null");//elavborate
+        }
     }
 
     @Override
@@ -142,7 +145,7 @@ public class DCTemaDiplomskogRada implements GeneralDObject,Serializable {
     @Override
     public void setKey(ResultSet rs) {
         try {
-            if(rs.next()){
+            if (rs.next()) {
                 temaID = rs.getLong(1);
             }
         } catch (SQLException ex) {
@@ -155,5 +158,32 @@ public class DCTemaDiplomskogRada implements GeneralDObject,Serializable {
         return nazivTeme;
     }
 
+    @Override
+    public String[] returnUniqueColumns() {
+        return new String[]{Constants.TemaDiplomskogRada.NAZIV_TEME};
+    }
+
+    @Override
+    public Object getValue(String column) {
+        switch (column) {
+            case Constants.TemaDiplomskogRada.TEMA_ID:
+                return temaID;
+            case Constants.TemaDiplomskogRada.NAZIV_TEME:
+                return nazivTeme;
+            case Constants.TemaDiplomskogRada.OPIS_TEME:
+                return opisTeme;
+            case Constants.TemaDiplomskogRada.PREDMET_ID_FK:
+                return predmet;
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public String[] getPrimaryKeyColumns() {
+        return new String[]{Constants.TemaDiplomskogRada.TEMA_ID};
+    }
     
+    
+
 }

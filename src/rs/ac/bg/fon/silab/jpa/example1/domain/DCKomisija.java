@@ -17,7 +17,7 @@ import rs.ac.bg.fon.silab.constants.Constants;
  *
  * @author MARINA
  */
-public class DCKomisija implements GeneralDObject, CompundDObject,Serializable {
+public class DCKomisija implements GeneralDObject, CompundDObject, Serializable {
 
     private Long komisijaID;
     private List<DCClanKomisije> clanovi;
@@ -33,6 +33,7 @@ public class DCKomisija implements GeneralDObject, CompundDObject,Serializable {
 
     public DCKomisija(Long komisijaID) {
         this.komisijaID = komisijaID;
+        clanovi = new ArrayList<>();
     }
 
     @Override
@@ -77,8 +78,15 @@ public class DCKomisija implements GeneralDObject, CompundDObject,Serializable {
         if (clanovi.size() >= 5) {
             throw new Exception("There are 5 members, if you want to add a new one, you have to delete one first!");
         }
+        boolean hasMentor = false;
         for (DCClanKomisije dCClanKomisije : clanovi) {
+            if (dCClanKomisije.getUlogaClanaKomisije().equals(EUlogaClanaKomisije.MENTOR)) {
+                hasMentor = true;
+            }
             dCClanKomisije.checkConstraints();
+        }
+        if (!hasMentor) {
+            throw new Exception("Mentor has to be defined!");
         }
     }
 
@@ -158,7 +166,7 @@ public class DCKomisija implements GeneralDObject, CompundDObject,Serializable {
     public GeneralDObject createChild(String className) {
         switch (className) {
             case Constants.ClanKomisije.CLASS_NAME:
-                return new DCClanKomisije();
+                return new DCClanKomisije(this);
             default:
                 return null;
         }
@@ -174,4 +182,25 @@ public class DCKomisija implements GeneralDObject, CompundDObject,Serializable {
         }
     }
 
+    @Override
+    public String[] returnUniqueColumns() {
+        return new String[]{};
+    }
+
+    @Override
+    public Object getValue(String column) {
+        switch (column) {
+            case Constants.Komisija.KOMISIJA_ID:
+                return komisijaID;
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public String[] getPrimaryKeyColumns() {
+        return new String[]{Constants.Komisija.KOMISIJA_ID};
+    }
+
+    
 }

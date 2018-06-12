@@ -13,7 +13,8 @@ import rs.ac.bg.fon.silab.constants.Constants;
  *
  * @author MARINA
  */
-public class DCSkolskaGodina implements GeneralDObject,Serializable{
+public class DCSkolskaGodina implements GeneralDObject, Serializable {
+
     private String skolskaGodina;
     private boolean aktivna;
 
@@ -24,8 +25,6 @@ public class DCSkolskaGodina implements GeneralDObject,Serializable{
         this.skolskaGodina = skolskaGodina;
         this.aktivna = true;
     }
-
-
 
     @Override
     public String getAtrValue() {
@@ -54,7 +53,7 @@ public class DCSkolskaGodina implements GeneralDObject,Serializable{
 
     @Override
     public String getNameByColumn(int column) {
-        String [] columnNames = new String[]{Constants.SkolskaGodina.SKOLSKA_GODINA,Constants.SkolskaGodina.AKTIVNA};
+        String[] columnNames = new String[]{Constants.SkolskaGodina.SKOLSKA_GODINA, Constants.SkolskaGodina.AKTIVNA};
         return columnNames[column];
     }
 
@@ -83,5 +82,29 @@ public class DCSkolskaGodina implements GeneralDObject,Serializable{
     public void setAktivna(boolean aktivna) {
         this.aktivna = aktivna;
     }
+
+    @Override
+    public String[] returnUniqueColumns() {
+        return new String[]{};
+    }
+
+    @Override
+    public Object getValue(String column) {
+        switch (column) {
+            case Constants.SkolskaGodina.SKOLSKA_GODINA:
+                return skolskaGodina;
+            case Constants.SkolskaGodina.AKTIVNA:
+                return aktivna;
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public String[] getPrimaryKeyColumns() {
+        return new String[]{Constants.SkolskaGodina.SKOLSKA_GODINA};
+    }
     
+    
+
 }

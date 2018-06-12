@@ -21,6 +21,7 @@ public class Constants {
     public static final String PORT = "port";
     public static final String DATABASE = "database";
     public static final String SERVER = "server";
+    public static final String PATH_TO_CONFIG_FILE_FOR_CLIENT = "./../resources/clientconfig.properties";
 
     public class TemaDiplomskogRada {
 

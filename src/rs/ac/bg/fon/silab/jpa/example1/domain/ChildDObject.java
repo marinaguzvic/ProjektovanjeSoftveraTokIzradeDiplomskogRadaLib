@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rs.ac.bg.fion.silab.gui.general;
+package rs.ac.bg.fon.silab.jpa.example1.domain;
 
 /**
  *
  * @author MARINA
  */
-public enum FormState {
-    EDIT,VIEW,INSERT,
-    PRIJAVA,ODOBRAVANJE,ODBRANA,ODBRANJEN,
-    STOP_SERVER,START_SERVER,
-    DISCONNECTED,CONNECTED, LOGGED_IN,LOGGED_OUT, SELECT
+public interface ChildDObject {
+    public String getParentWhere();
 }

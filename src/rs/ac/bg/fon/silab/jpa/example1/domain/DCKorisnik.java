@@ -6,9 +6,7 @@
 package rs.ac.bg.fon.silab.jpa.example1.domain;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.sql.ResultSet;
-import java.util.Arrays;
 import java.util.Objects;
 import rs.ac.bg.fon.silab.constants.Constants;
 
@@ -16,7 +14,7 @@ import rs.ac.bg.fon.silab.constants.Constants;
  *
  * @author MARINA
  */
-public class DCKorisnik implements GeneralDObject,Serializable {
+public class DCKorisnik implements GeneralDObject, Serializable {
 
     private String username;
     private char[] password;
@@ -37,12 +35,12 @@ public class DCKorisnik implements GeneralDObject,Serializable {
 
     @Override
     public String getAtrValue() {
-        return "'" + username + "', '" + Arrays.toString(password) + "', '" + ime + "', '" + prezime + "'";
+        return "'" + username + "', '" + new String(password) + "', '" + ime + "', '" + prezime + "'";
     }
 
     @Override
     public String setAtrValue() {
-        return Constants.Korisnik.USERNAME + "='" + username + "', " + Constants.Korisnik.PASSWORD + "='" + Arrays.toString(password) + "', " + Constants.Korisnik.IME + "='" + ime + "', " + Constants.Korisnik.PREZIME + "='" + prezime + "'";
+        return Constants.Korisnik.USERNAME + "='" + username + "', " + Constants.Korisnik.PASSWORD + "='" + new String(password) + "', " + Constants.Korisnik.IME + "='" + ime + "', " + Constants.Korisnik.PREZIME + "='" + prezime + "'";
     }
 
     @Override
@@ -67,7 +65,20 @@ public class DCKorisnik implements GeneralDObject,Serializable {
 
     @Override
     public void checkConstraints() throws Exception {
-        //mozda dodati ogranicenja za sifru
+
+        String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
+        if (!new String(password).matches(pattern)) {
+            throw new Exception("Password must have: 1 upper, one lower letter, one number and one special character at least and has to be at least 8 characters long");
+        }
+        if (username.length() < 3) {
+            throw new Exception("Username is too short! Must be at least 3 characters long!");
+        }
+        if (ime.length() < 3) {
+            throw new Exception("Ime has less than 3 characters");
+        }
+        if (prezime.length() < 3) {
+            throw new Exception("Prezime has less than 3 characters");
+        }
     }
 
     @Override
@@ -148,5 +159,34 @@ public class DCKorisnik implements GeneralDObject,Serializable {
         return true;
 
     }
+
+    @Override
+    public String[] returnUniqueColumns() {
+        return new String[]{Constants.Korisnik.USERNAME};
+    }
+
+    @Override
+    public Object getValue(String column) {
+        switch(column){
+            case Constants.Korisnik.USERNAME:
+                return username;
+            case Constants.Korisnik.PASSWORD:
+                return password;
+            case Constants.Korisnik.IME:
+                return ime;
+            case Constants.Korisnik.PREZIME:
+                return prezime;
+            default:
+                return null;
+              
+        }
+    }
+
+    @Override
+    public String[] getPrimaryKeyColumns() {
+        return new String[]{Constants.Korisnik.USERNAME};
+    }
+    
+    
 
 }
